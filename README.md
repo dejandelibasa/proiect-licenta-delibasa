@@ -6,3 +6,9 @@ Human Resources type web application
 ## Cerințe preliminare
 Acest proiect a fost dezvoltat în cadrul unui pachet de tip LAMP, așa că este nevoie de o instalare de **PHP** și de server **MySql**.
 Acest proiect a fost dezvoltat folosind sistemul de operare **Linux Ubuntu**.
+Server-ul folosit în timpul dezvoltării este cel oferit de framework-ul **yii**, activat prin folosirea comenzii `php yii serve` în directorul basic al proiectului.
+
+## Cum să descarc proiectul?
+Primul pas este instalarea pachetului **git** pe dispozitivul curent.
+[Aici](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) sunt tutoriale pentru a instala pachetul **git** pe orice sistem de operare.
+După aceea, există în *vârful* paginii curente un buton cu textul **Clone or download**, apăsându-l vor apărea instrucțiuni de instalare folosind comenzile git.
