@@ -1,6 +1,6 @@
 # proiect-licenta-delibasa
 Human Resources type web application  
-### This markdown readme contains both romanian and english language instructions  
+### This markdown readme contains both romanian and english language instructions
 ### Acest document readme conține atât instrucțiuni în limba română cât și în limba engleză  
 
 ## Cerințe preliminare
