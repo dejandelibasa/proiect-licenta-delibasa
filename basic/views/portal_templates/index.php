@@ -2,8 +2,8 @@
 
 /* @var $this yii\web\View */
 
-$this->title = $this->params['portal']->name;
+$this->title = $portal->name;
 ?>
 <div class="site-index">
-
+    
 </div>

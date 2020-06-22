@@ -54,6 +54,17 @@ class Portal extends \yii\db\ActiveRecord
     {
         return strtolower($this->name);
     }
+
+    /**
+     * @return string
+     */
+    public function convertColorRGBtoHex($color)
+    {
+        $color = explode('#', $color);
+        $color = $color[1];
+        return base_convert($color, 16, 2);
+    }
+
     /**
      * @return string
      */
@@ -75,6 +86,13 @@ class Portal extends \yii\db\ActiveRecord
     }
 
     public function deletePortalViewsFolder()
+    {
+    }
+
+    public function createPortalCSSFile()
+    {
+    }
+    public function deletePortalCSSFile()
     {
     }
 }
