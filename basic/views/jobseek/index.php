@@ -5,5 +5,5 @@
 $this->title = $this->params['portal']->name;
 ?>
 <div class="site-index">
-
+    
 </div>

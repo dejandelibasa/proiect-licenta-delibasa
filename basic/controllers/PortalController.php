@@ -71,8 +71,19 @@ class PortalController extends Controller
             $model->primary_color = $model->convertColorRGBtoHex($data['Portal']['primary_color']);
             $model->secondary_color = $model->convertColorRGBtoHex($data['Portal']['secondary_color']);
             if($model->save()) {
-                $model->createPortalViewsFolder();
-                return $this->redirect(['view', 'id' => $model->id]);
+                if($model->createPortalViewsFolder()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    return $this->render('create', [
+                        'model' => new Portal(),
+                        'error' => Yii::t('app', 'Error creating file. Please contact an administrator.'),
+                    ]);
+                }
+            } else {
+                return $this->render('create', [
+                    'model' => new Portal(),
+                    'error' => $model->errors,
+                ]);
             }
         }
 

@@ -79,10 +79,13 @@ class Portal extends \yii\db\ActiveRecord
     {
         return base_convert($this->secondary_color, 2, 16);
     }
-
+    
+    /**
+     * @return bool
+     */
     public function createPortalViewsFolder()
     {
-        mkdir(Yii::$app->basePath . "/views/" . $this->getLowercaseName());
+        return mkdir(Yii::$app->basePath . "/views/" . $this->getLowercaseName());
     }
 
     public function deletePortalViewsFolder()

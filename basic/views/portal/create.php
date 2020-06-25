@@ -13,6 +13,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="portal-create">
 
+    <?php if($error): ?>
+        <div class="alert alert-danger" role="alert">
+            <p>
+                <?= $error; ?>
+            </p>
+        </div>
+    <?php endif; ?>
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php 

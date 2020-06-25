@@ -10,6 +10,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use yii\helpers\Url;
 use app\assets\AppAsset;
+use app\models\User;
 
 AppAsset::register($this);
 ?>
@@ -30,26 +31,23 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => $this->params['portal']->name,
-        'brandUrl' => Url::toRoute(['index', 'portal_id' => $this->params['portal']->id]),
+        'brandUrl' => Url::toRoute(['portals/index', 'portal_id' => $this->params['portal']->id]),
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $navigationBarItems = [];
     if(Yii::$app->user->isGuest) {
-        $navigationBarItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['login', 'portal_id' => $this->params['portal']->id]];
+        $navigationBarItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['portals/login', 'portal_id' => $this->params['portal']->id]];
         $navigationBarItems[] = ['label' => '/', 'url' => ''];
-        $navigationBarItems[] = ['label' => Yii::t('app', 'Register'), 'url' => ['register', 'portal_id' => $this->params['portal']->id]];
-    } else {
-        $navigationBarItems[] = '<li></li>';
-        // '<li>'
-        //         . Html::beginForm([Yii::$app->homeUrl . '?r=portals&portal_id=' . $this->params['portal']->id . '&p=logout'], 'post')
-        //         . Html::submitButton(
-        //             'Logout (' . Yii::$app->user->identity->username . ')',
-        //             ['class' => 'btn btn-link logout']
-        //         )
-        //         . Html::endForm()
-        //         . '</li>'
+        $navigationBarItems[] = ['label' => Yii::t('app', 'Register'), 'url' => ['portals/register', 'portal_id' => $this->params['portal']->id]];
+    } elseif(Yii::$app->user->identity->type == User::USER_TYPE_COMPANY) {
+        $navigationBarItems[] = ['label' => Yii::t('app', 'Add Job'), 'url' => ['company/add_job.php', 'portal_id' => $this->params['portal']->id]];
+        $navigationBarItems[] = ['label' => Yii::t('app', 'Profile'), 'url' => ['company/profile', 'portal_id' => $this->params['portal']->id]];
+        $navigationBarItems[] = ['label' => Yii::t('app', 'Logout'), 'url' => ['portals/logout', 'portal_id' => $this->params['portal']->id]];
+    } elseif(Yii::$app->user->identity->type == User::USER_TYPE_SEEKER) {
+        $navigationBarItems[] = ['label' => Yii::t('app', 'Profile'), 'url' => ['seeker/profile', 'portal_id' => $this->params['portal']->id]];
+        $navigationBarItems[] = ['label' => Yii::t('app', 'Logout'), 'url' => ['portals/logout', 'portal_id' => $this->params['portal']->id]];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -68,7 +66,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Dejan Delibașa <?= date('Y') ?></p>
+        <p class="pull-left"> Dejan Delibașa <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

@@ -8,6 +8,8 @@ use Yii;
  * This is the model class for table "Seeker".
  *
  * @property int $id
+ * @property string|null $first_name
+ * @property string|null $last_name
  *
  * @property Cv[] $cvs
  * @property User[] $users
@@ -27,7 +29,9 @@ class Seeker extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [];
+        return [
+            [['first_name', 'last_name'], 'string', 'max' => 100],
+        ];
     }
 
     /**
@@ -37,6 +41,8 @@ class Seeker extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'first_name' => Yii::t('app', 'First Name'),
+            'last_name' => Yii::t('app', 'Last Name'),
         ];
     }
 
@@ -57,6 +63,6 @@ class Seeker extends \yii\db\ActiveRecord
      */
     public function getUsers()
     {
-        return $this->hasMany(User::className(), ['entityid' => 'id']);
+        return $this->hasMany(User::className(), ['entity_id' => 'id']);
     }
 }

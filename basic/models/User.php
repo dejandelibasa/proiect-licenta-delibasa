@@ -2,14 +2,30 @@
 
 namespace app\models;
 
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-class User extends ActiveRecord implements IdentityInterface
+use Yii;
+
+/**
+ * This is the model class for table "User".
+ *
+ * @property int $id
+ * @property int $type
+ * @property int $entity_id
+ * @property string $email
+ * @property string $password
+ *
+ * @property Company $company
+ * @property Seeker $seeker
+ */
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     CONST USER_TYPE_COMPANY = 1;
     CONST USER_TYPE_SEEKER = 2;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName()
     {
         return 'User';
@@ -21,10 +37,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['type', 'entityid'], 'integer'],
-            [['entityid'], 'required'],
-            [['entityid'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['entityid' => 'id']],
-            [['entityid'], 'exist', 'skipOnError' => true, 'targetClass' => Seeker::className(), 'targetAttribute' => ['entityid' => 'id']],
+            [['type', 'entity_id'], 'integer'],
+            [['entity_id', 'email', 'password'], 'required'],
+            [['email'], 'string', 'max' => 100],
+            [['password'], 'string', 'max' => 128],
+            [['email'], 'unique'],
         ];
     }
 
@@ -35,8 +52,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'type' => Yii::t('app', 'User Type'),
-            'entityid' => Yii::t('app', 'Entity ID'),
+            'type' => Yii::t('app', 'Type'),
+            'entity_id' => Yii::t('app', 'Entity ID'),
+            'email' => Yii::t('app', 'Email'),
+            'password' => Yii::t('app', 'Password'),
         ];
     }
 
@@ -45,9 +64,9 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getEntity()
+    public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['id' => 'entityid']);
+        return $this->hasOne(Company::className(), ['id' => 'entity_id']);
     }
 
     /**
@@ -55,12 +74,12 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getEntity0()
+    public function getSeeker()
     {
-        return $this->hasOne(Seeker::className(), ['id' => 'entityid']);
+        return $this->hasOne(Seeker::className(), ['id' => 'entity_id']);
     }
 
-    /**
+     /**
      * Finds an identity by the given ID.
      *
      * @param string|int $id the ID to be looked for
@@ -93,30 +112,11 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @return bool true if user is a guest, false if not
-     */
-    /*public function isGUest()
-    {
-        return $this->type == USER_TYPE_GUEST;
-    }*/
-
-    /**
      * @param string $authKey
      * @return bool if auth key is valid for current user
      */
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
-    }
-
-    public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            if ($this->isNewRecord) {
-                $this->auth_key = \Yii::$app->security->generateRandomString();
-            }
-            return true;
-        }
-        return false;
     }
 }

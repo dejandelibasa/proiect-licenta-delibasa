@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "Company".
  *
  * @property int $id
- * @property string $name
+ * @property string|null $name
  *
  * @property User[] $users
  */
@@ -28,7 +28,6 @@ class Company extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
             [['name'], 'string', 'max' => 128],
         ];
     }
