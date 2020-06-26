@@ -7,6 +7,7 @@ use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\Dropdown;
 use yii\widgets\Breadcrumbs;
 use yii\helpers\Url;
 use app\assets\AppAsset;
@@ -42,10 +43,31 @@ AppAsset::register($this);
         $navigationBarItems[] = ['label' => '/', 'url' => ''];
         $navigationBarItems[] = ['label' => Yii::t('app', 'Register'), 'url' => ['portals/register', 'portal_id' => $this->params['portal']->id]];
     } elseif(Yii::$app->user->identity->type == User::USER_TYPE_COMPANY) {
-        $navigationBarItems[] = ['label' => Yii::t('app', 'Add Job'), 'url' => ['company/add_job.php', 'portal_id' => $this->params['portal']->id]];
-        $navigationBarItems[] = ['label' => Yii::t('app', 'Profile'), 'url' => ['company/profile', 'portal_id' => $this->params['portal']->id]];
+        $navigationBarItems[] = '<li class="dropdown">'.
+                                    '<a href="#" data-toggle="dropdown" class="dropdown-toggle">'.
+                                        Yii::t('app', 'Company Options').
+                                        '<b class="caret"></b>'.
+                                    '</a>'.
+                                    Dropdown::widget([
+                                        'items' => [
+                                            ['label' => Yii::t('app', 'Add Job'), 'url' => ['job/add', 'portal_id' => $this->params['portal']->id]],
+                                        ],
+                                    ]).
+                                '</li>';
+        $navigationBarItems[] = ['label' => Yii::t('app', 'Company Profile'), 'url' => ['company/profile', 'portal_id' => $this->params['portal']->id]];
         $navigationBarItems[] = ['label' => Yii::t('app', 'Logout'), 'url' => ['portals/logout', 'portal_id' => $this->params['portal']->id]];
     } elseif(Yii::$app->user->identity->type == User::USER_TYPE_SEEKER) {
+        $navigationBarItems[] = '<li class="dropdown">'.
+                                    '<a href="#" data-toggle="dropdown" class="dropdown-toggle">'.
+                                        Yii::t('app', 'Seeker Options').
+                                        '<b class="caret"></b>'.
+                                    '</a>'.
+                                    Dropdown::widget([
+                                        'items' => [
+                                            ['label' => Yii::t('app' , 'TBD'), 'url' => '#'],
+                                        ],
+                                    ]).
+                                '</li>';
         $navigationBarItems[] = ['label' => Yii::t('app', 'Profile'), 'url' => ['seeker/profile', 'portal_id' => $this->params['portal']->id]];
         $navigationBarItems[] = ['label' => Yii::t('app', 'Logout'), 'url' => ['portals/logout', 'portal_id' => $this->params['portal']->id]];
     }

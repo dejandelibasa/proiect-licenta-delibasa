@@ -12,8 +12,9 @@ use Yii;
  * @property string $title
  * @property string|null $description
  * @property string|null $location
+ * @property string|null $created_at
  *
- * @property Cv $company
+ * @property Company $company
  */
 class Job extends \yii\db\ActiveRecord
 {
@@ -34,9 +35,10 @@ class Job extends \yii\db\ActiveRecord
             [['company_id'], 'integer'],
             [['title'], 'required'],
             [['description'], 'string'],
+            [['created_at'], 'safe'],
             [['title'], 'string', 'max' => 64],
             [['location'], 'string', 'max' => 100],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cv::className(), 'targetAttribute' => ['company_id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];
     }
 
@@ -51,6 +53,7 @@ class Job extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
             'location' => Yii::t('app', 'Location'),
+            'created_at' => Yii::t('app', 'Created At'),
         ];
     }
 
@@ -61,6 +64,6 @@ class Job extends \yii\db\ActiveRecord
      */
     public function getCompany()
     {
-        return $this->hasOne(Cv::className(), ['id' => 'company_id']);
+        return $this->hasOne(Company::className(), ['id' => 'company_id']);
     }
 }

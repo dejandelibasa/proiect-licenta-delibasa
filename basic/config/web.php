@@ -22,6 +22,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
+            'loginUrl' => ['portals/login', 'portal_id' => 16],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

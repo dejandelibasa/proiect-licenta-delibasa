@@ -47,7 +47,7 @@ class PortalsController extends Controller
                 $user = User::find()->where(['email' => $data['email']])->one();
                 if(password_verify($data['password'], $user->password)) {
                     Yii::$app->user->login($user);
-                    return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/index.php');
+                    return $this->redirect(['portals/index', 'portal_id' => Yii::$app->view->params['portal']->id]);
                 } else {
                     return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/login.php', array(
                         'userLoginFormModel' => new UserLoginForm(),
@@ -76,7 +76,7 @@ class PortalsController extends Controller
     {
         Yii::$app->view->params['portal'] = Portal::findOne($portal_id);
         Yii::$app->user->logout();
-        return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/index.php');
+        return $this->redirect(['portals/index', 'portal_id' => Yii::$app->view->params['portal']->id]);
     }
 
     /**
@@ -104,7 +104,7 @@ class PortalsController extends Controller
                     $company->name = $data['name'];
                     if($user->save() && $company->save()) {
                         Yii::$app->user->login($user);
-                        return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/company/profile.php');
+                        return $this->redirect(['company/profile', 'portal_id' => Yii::$app->view->params['portal']->id]);
                     } else {
                         $company->delete();
                         $user->delete();
@@ -127,7 +127,7 @@ class PortalsController extends Controller
                     $seeker->last_name = $data['last_name'];
                     if ($user->save() && $seeker->save()) {
                         Yii::$app->user->login($user);
-                        return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/seeker/profile.php');
+                        return $this->redirect(['seeker/profile', 'portal_id' => Yii::$app->view->params['portal']->id]);
                     } else {
                         $seeker->delete();
                         $user->delete();
@@ -139,7 +139,7 @@ class PortalsController extends Controller
                     }
                 break;
                 default:
-                    $this->actionIndex(Yii::$app->view->params['portal']->id);
+                    return $this->redirect(['portals/index', 'portal_id' => Yii::$app->view->params['portal']->id]);
                 break;
             }
         }
@@ -149,11 +149,5 @@ class PortalsController extends Controller
             'companyRegisterFormModel' => new CompanyRegisterForm(),
             'error' => false,
         ));
-    }
-
-    public function actionSeekerProfile($portal_id)
-    {
-        Yii::$app->view->params['portal'] = Portal::findOne($portal_id);
-        return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/seeker/profile.php');
     }
 }
