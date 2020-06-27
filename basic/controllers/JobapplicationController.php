@@ -85,4 +85,9 @@ class JobapplicationController extends Controller
             'jobApplications' => $jobApplications,
         ));
     }
+
+    public function actionDownloadcv($cvPath)
+    {
+        return Yii::$app->response->xSendFile($cvPath);
+    }
 }

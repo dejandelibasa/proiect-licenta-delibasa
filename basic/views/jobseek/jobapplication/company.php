@@ -8,6 +8,7 @@ use yii\helpers\Url;
 use app\models\Job;
 use app\models\Seeker;
 use app\models\User;
+use app\models\CV;
 
 /* @var $this yii\web\View */
 
@@ -28,11 +29,29 @@ $this->title = $this->params['portal']->name;
                 'label' => 'User',
                 'format' => 'raw',
                 'value' => function($model) {
-                    return 
-                        Seeker::find()->innerJoin('User', 'User.id = ' . $model->user_id)->one()->first_name .
-                        " " .
-                        Seeker::find()->innerJoin('User', 'User.id = ' . $model->user_id)->one()->last_name
-                    ;
+                    $applicationSeekerId = User::findOne($model->user_id)->entity_id;
+                    $applicationSeekerId = Seeker::findOne($applicationSeekerId)->id;
+                    if(CV::find()->where(['seeker_id' => $applicationSeekerId])->one()) {
+                        $cvFilePath = CV::find()->innerJoin('Seeker', 'Seeker.id = ' . $applicationSeekerId)->one()->path;
+                    } else {
+                        $cvFilePath = false;
+                    }
+
+                    if($cvFilePath) {
+                        return Html::a(
+                            Seeker::find()->innerJoin('User', 'User.id = ' . $model->user_id)->one()->first_name .
+                            " " .
+                            Seeker::find()->innerJoin('User', 'User.id = ' . $model->user_id)->one()->last_name,
+                            [
+                                'jobapplication/downloadcv', 
+                                'cvPath' => $cvFilePath
+                            ]
+                        );
+                    } else {
+                        return Seeker::find()->innerJoin('User', 'User.id = ' . $model->user_id)->one()->first_name .
+                                " " .
+                                Seeker::find()->innerJoin('User', 'User.id = ' . $model->user_id)->one()->last_name;
+                    }
                 }
             ],
             'date'
