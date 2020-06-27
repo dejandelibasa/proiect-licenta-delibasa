@@ -91,11 +91,4 @@ class Portal extends \yii\db\ActiveRecord
     public function deletePortalViewsFolder()
     {
     }
-
-    public function createPortalCSSFile()
-    {
-    }
-    public function deletePortalCSSFile()
-    {
-    }
 }

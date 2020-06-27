@@ -10,6 +10,7 @@ class SeekerUploadCvForm extends \yii\base\Model
      * @var UploadedFile
      */
     public $CV;
+    public $seeker_id;
 
     public function rules()
     {
@@ -21,7 +22,7 @@ class SeekerUploadCvForm extends \yii\base\Model
     public function upload()
     {
         if ($this->validate()) {
-            $this->CV->saveAs('uploads/' . $this->CV->baseName . '.' . $this->CV->extension);
+            $this->CV->saveAs('@app/uploads/seeker_cvs/' . $this->seeker_id . '/' . $this->CV->baseName . '.' . $this->CV->extension);
             return true;
         } else {
             return false;

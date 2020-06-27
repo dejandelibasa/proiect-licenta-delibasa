@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $seeker_id
  * @property string|null $path
+ * @property string|null $updated_at
  *
  * @property Seeker $seeker
  */
@@ -31,6 +32,7 @@ class CV extends \yii\db\ActiveRecord
         return [
             [['seeker_id'], 'required'],
             [['seeker_id'], 'integer'],
+            [['updated_at'], 'safe'],
             [['path'], 'string', 'max' => 100],
             [['seeker_id'], 'exist', 'skipOnError' => true, 'targetClass' => Seeker::className(), 'targetAttribute' => ['seeker_id' => 'id']],
         ];
@@ -45,6 +47,7 @@ class CV extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'seeker_id' => Yii::t('app', 'Seeker ID'),
             'path' => Yii::t('app', 'Path'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 

@@ -61,14 +61,17 @@ class JobController extends Controller
      * View a job given job_id
      * @return mixed
      */
-    public function actionView($portal_id, $job_id)
+    public function actionView($portal_id, $job_id, $error = null, $flash = null)
     {
         Yii::$app->view->params['portal'] = Portal::findOne($portal_id);
+
         $job = Job::findOne($job_id);
         return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/job/viewJob.php', array(
             'job' => $job,
             'company' => Company::findOne($job->company_id),
             'companyContactDetails' => CompanyContactDetails::find()->where(['company_id' => $job->company_id])->one(),
+            'flash' => $flash,
+            'error' => $error,
         ));
     }
 

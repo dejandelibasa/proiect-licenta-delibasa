@@ -52,6 +52,7 @@ AppAsset::register($this);
                                         'items' => [
                                             ['label' => Yii::t('app', 'Add Job'), 'url' => ['job/add', 'portal_id' => $this->params['portal']->id]],
                                             ['label' => Yii::t('app', 'Contact Details'), 'url' => ['company/contact', 'portal_id' => $this->params['portal']->id]],
+                                            ['label' => Yii::t('app', 'Job Applications'), 'url' => ['jobapplication/company', 'portal_id' => $this->params['portal']->id]],
                                         ],
                                     ]).
                                 '</li>';
@@ -65,7 +66,7 @@ AppAsset::register($this);
                                     '</a>'.
                                     Dropdown::widget([
                                         'items' => [
-                                            ['label' => Yii::t('app' , 'TBD'), 'url' => '#'],
+                                            ['label' => Yii::t('app' , 'Application'), 'url' => ['jobapplication/seeker', 'portal_id' => $this->params['portal']->id]],
                                         ],
                                     ]).
                                 '</li>';
