@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Portals'), 'url' => 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="portal-create">
-
+    <?php $error = isset($error) ? $error : false; ?>
     <?php if($error): ?>
         <div class="alert alert-danger" role="alert">
             <p>

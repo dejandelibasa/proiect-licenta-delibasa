@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use yii\helpers\FileHelper;
+
 use Yii;
 
 /**
@@ -85,10 +87,12 @@ class Portal extends \yii\db\ActiveRecord
      */
     public function createPortalViewsFolder()
     {
-        return mkdir(Yii::$app->basePath . "/views/" . $this->getLowercaseName());
+        FileHelper::copyDirectory(Yii::$app->basePath . "/views/portal_templates/", Yii::$app->basePath . "/views/" . $this->getLowercaseName());
+        return true;
     }
 
     public function deletePortalViewsFolder()
     {
+        FileHelper::removeDirectory(Yii::$app->basePath . "/views/" . $this->getLowercaseName());
     }
 }
