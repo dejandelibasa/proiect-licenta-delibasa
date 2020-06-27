@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
@@ -30,20 +29,20 @@ $this->title = $this->params['portal']->name;
   <?= GridView::widget([
         'dataProvider' => $last_5_jobs,
         'columns' => [
-            'title',
+            [
+                'label' => 'title',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['job/view', 'portal_id' => Yii::$app->view->params['portal']->id, 'job_id' => $model->id]);
+                },
+             ],
             'location',
             'created_at',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Actions',
-                'template' => '{view} {edit} {delete}',
+                'template' => '{edit} {delete}',
                 'buttons' => [
-                    'view' => function($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',
-                                        Url::to(['job/view', 'portal_id' => Yii::$app->view->params['portal']->id, 'job_id' => $model->id]),
-                                        ['title' => Yii::t('app', 'View job offer')]
-                        );
-                    },
                     'edit' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', 
                                     Url::to(['job/edit', 'portal_id' => Yii::$app->view->params['portal']->id, 'job_id' => $model->id]), 
@@ -59,6 +58,7 @@ $this->title = $this->params['portal']->name;
                 ]
             ],
         ],
+        'summary' => "{totalCount} jobs",
     ]); ?>
   </div>
 </div>

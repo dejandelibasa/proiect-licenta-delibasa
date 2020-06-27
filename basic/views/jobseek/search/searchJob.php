@@ -1,6 +1,10 @@
 <?php
 
+use yii\grid\GridView;
+use yii\helpers\Url;
 use yii\helpers\Html;
+use app\models\Job;
+use app\models\Company;
 use kartik\form\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -25,3 +29,19 @@ $this->title = $this->params['portal']->name;
         ]) ?>
     <?php ActiveForm::end(); ?>
 </div>
+<?= GridView::widget([
+    'dataProvider' => $jobsDataProvider,
+    'columns' => [
+        [
+            'label' => 'title',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return Html::a($model->title, ['job/view', 'portal_id' => Yii::$app->view->params['portal']->id, 'job_id' => $model->id]);
+            },
+         ],
+        'location',
+        'created_at'
+    ],
+    'summary' => "{end}/{totalCount} jobs",
+    'showHeader' => false,
+]) ?>

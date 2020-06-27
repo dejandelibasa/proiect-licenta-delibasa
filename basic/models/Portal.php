@@ -70,14 +70,14 @@ class Portal extends \yii\db\ActiveRecord
      */
     public function getPrimaryColorAsHex()
     {
-        return base_convert($this->primary_color, 2, 16);
+        return '#' . base_convert($this->primary_color, 2, 16);
     }
     /**
      * @return string
      */
     public function getSecondaryColorAsHex()
     {
-        return base_convert($this->secondary_color, 2, 16);
+        return '#' . base_convert($this->secondary_color, 2, 16);
     }
     
     /**

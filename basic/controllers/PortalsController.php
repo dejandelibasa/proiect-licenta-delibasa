@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 use app\models\forms\SeekerRegisterForm;
 use app\models\forms\CompanyRegisterForm;
 use app\models\forms\UserLoginForm;
+use app\models\forms\JobSearchForm;
 
 /**
  * PortalsController implements the CRUD actions for Portal model.
@@ -29,7 +30,25 @@ class PortalsController extends Controller
     public function actionIndex($portal_id)
     {
         Yii::$app->view->params['portal'] = Portal::findOne($portal_id);
-        return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/index.php');
+
+        if(Yii::$app->request->post()) {
+            $data = Yii::$app->request->post();
+            $indexActionRouteParameter = $data['index_route'];
+            switch($indexActionRouteParameter) {
+                case 'job_search':
+                    return $this->redirect(['search/job', 'portal_id' => Yii::$app->view->params['portal']->id, 'search_data' => $data['JobSearchForm']]);
+                break;
+                default:
+                    return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/index.php', array(
+                        'jobSearchFormModel' => new JobSearchForm(),
+                    ));
+                break;
+            }
+        }
+
+        return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/index.php', array(
+            'jobSearchFormModel' => new JobSearchForm(),
+        ));
     }
 
     /**
@@ -45,6 +64,9 @@ class PortalsController extends Controller
             if($data['user_login_submit'] == 'user_login') {
                 $data = $data['UserLoginForm'];
                 $user = User::find()->where(['email' => $data['email']])->one();
+                if($user->portal_id != Yii::$app->view->params['portal']->id) {
+                    return $this->redirect(['portals/index', 'portal_id' => $user->portal_id]);
+                }
                 if(password_verify($data['password'], $user->password)) {
                     Yii::$app->user->login($user);
                     return $this->redirect(['portals/index', 'portal_id' => Yii::$app->view->params['portal']->id]);

@@ -14,7 +14,8 @@ use Yii;
  * @property int $entity_id
  * @property string $email
  * @property string $password
- *
+ * @property int $entity_id
+ * 
  * @property Company $company
  * @property Seeker $seeker
  */

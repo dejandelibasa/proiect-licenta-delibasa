@@ -8,6 +8,7 @@ use app\models\User;
 use app\models\Seeker;
 use app\models\Company;
 use app\models\Job;
+use app\models\CompanyContactDetails;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -20,30 +21,16 @@ class JobController extends Controller
     public $layout = 'portals';
 
     /**
-     * Decides which type of users can access views in controller
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    /**
      * Render adding job interface, and create Job for respective company
      * @return mixed
      */
     public function actionAdd($portal_id)
     {
         Yii::$app->view->params['portal'] = Portal::findOne($portal_id);
+
+        if(Yii::$app->user->isGuest || Yii::$app->user->identity->entity_id != User::USER_TYPE_COMPANY) {
+            return $this->redirect(['portals/index', 'portal_id' => Yii::$app->view->params['portal']->id]);
+        }
 
         if(Yii::$app->request->post()) {
             $job = new Job();
@@ -69,6 +56,7 @@ class JobController extends Controller
             'error' => false,
         ));
     }
+
     /**
      * View a job given job_id
      * @return mixed
@@ -76,7 +64,12 @@ class JobController extends Controller
     public function actionView($portal_id, $job_id)
     {
         Yii::$app->view->params['portal'] = Portal::findOne($portal_id);
-        return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/job/viewJob.php', array());
+        $job = Job::findOne($job_id);
+        return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/job/viewJob.php', array(
+            'job' => $job,
+            'company' => Company::findOne($job->company_id),
+            'companyContactDetails' => CompanyContactDetails::find()->where(['company_id' => $job->company_id])->one(),
+        ));
     }
 
     /**
@@ -124,6 +117,11 @@ class JobController extends Controller
     public function actionDelete($portal_id, $job_id)
     {
         Yii::$app->view->params['portal'] = Portal::findOne($portal_id);
+        if(Yii::$app->user->isGuest) {
+            return $this->redirect(['portals/login', 'portal_id' => Yii::$app->view->params['portal']->id]);
+        } elseif(Yii::$app->user->identity->entity_id != $job->company_id || Yii::$app->user->identity->entity_id != User::USER_TYPE_COMPANY) {
+            return $this->redirect(['portals/index', 'portal_id' => Yii::$app->view->params['portal']->id]);
+        }
         $job = Job::findOne($job_id);
         $job->delete();
         return $this->redirect(['company/profile', 'portal_id' => Yii::$app->view->params['portal']->id]);

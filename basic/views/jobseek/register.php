@@ -10,6 +10,7 @@ use app\models\forms\CompanyRegisterForm;
 $this->title = $this->params['portal']->name;
 ?>
 <div class="row">
+	<?php $error = isset($error) ? $error : false; ?>
 	<?php if($error): ?>
         <div class="alert alert-danger" role="alert">
             <p>
