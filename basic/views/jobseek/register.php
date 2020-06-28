@@ -31,7 +31,17 @@ $this->title = $this->params['portal']->name;
 			echo $seekerRegisterForm->field($seekerRegisterFormModel, 'password')->passWordinput();
 			echo $seekerRegisterForm->field($seekerRegisterFormModel, 'first_name');
 			echo $seekerRegisterForm->field($seekerRegisterFormModel, 'last_name');
-			echo Html::submitButton(Yii::t('app', 'Register as Seeker'), ['class' => 'btn btn-primary form-group', 'value' => 'seeker', 'name' => 'register_submit']);
+			echo Html::submitButton(
+				Yii::t('app', 'Register as Seeker'), 
+				[
+					'class' => 'btn form-group', 
+					'style' => [
+						'color' => $this->params['portal']->getSecondaryColorAsHex(),
+						'background-color' => $this->params['portal']->getPrimaryColorAsHex(),
+					],
+					'value' => 'seeker', 
+					'name' => 'register_submit'
+			]);
 		?>
 		<?php ActiveForm::end() ?>
 	</div>
@@ -45,7 +55,17 @@ $this->title = $this->params['portal']->name;
 			echo $companyRegisterForm->field($companyRegisterFormModel, 'email');
 			echo $seekerRegisterForm->field($companyRegisterFormModel, 'password')->passWordinput();
 			echo $seekerRegisterForm->field($companyRegisterFormModel, 'name');
-			echo Html::submitButton(Yii::t('app', 'Register as Company'), ['class' => 'btn btn-primary form-group', 'value' => 'company', 'name' => 'register_submit']);
+			echo Html::submitButton(
+				Yii::t('app', 'Register as Company'), 
+				[
+					'class' => 'btn btn-primary form-group',
+					'style' => [
+						'color' => $this->params['portal']->getSecondaryColorAsHex(),
+						'background-color' => $this->params['portal']->getPrimaryColorAsHex(),
+					],
+					'value' => 'company',
+					'name' => 'register_submit'
+				]);
 		?>
 		<?php ActiveForm::end() ?>
 	</div>

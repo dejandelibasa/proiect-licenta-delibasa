@@ -5,7 +5,6 @@ use yii\helpers\Html;
 use app\models\Job;
 use app\models\Company;
 use app\models\User;
-use kartik\form\ActiveForm;
 
 /* @var $this yii\web\View */
 
@@ -46,7 +45,10 @@ $this->title = $this->params['portal']->name;
                 ['jobapplication/create', 'portal_id' => $this->params['portal']->id, 'job_id' => $job->id],
                 [
                     'class' => 'btn',
-                    'style' => 'background-color: ' . Yii::$app->view->params['portal']->getPrimaryColorAsHex() . '; color:' . Yii::$app->view->params['portal']->getSecondaryColorAsHex() . ';'
+                    'style' => [
+                        'background-color' => Yii::$app->view->params['portal']->getPrimaryColorAsHex(),
+                        'color' => Yii::$app->view->params['portal']->getSecondaryColorAsHex(),
+                    ],
                 ]
             )
         ?>

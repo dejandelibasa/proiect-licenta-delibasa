@@ -79,7 +79,7 @@ class SeekerController extends Controller
         return $this->render('@app/views/' . Yii::$app->view->params['portal']->getLowercaseName() . '/seeker/profile.php', array(
             'seekerUploadCVFormModel' => $seekerUploadCVFormModel,
             'cv' => $cv,
-            'error' => false,
+            'error' => isset($error) ? $error : false,
         ));
     }
 }

@@ -46,7 +46,10 @@ $this->title = $this->params['portal']->name;
 						Yii::t('app', 'Press to update CV'), 
 						[
 							'class' => 'btn',
-							'style' => 'background-color: ' . Yii::$app->view->params['portal']->getPrimaryColorAsHex() . '; color:' . Yii::$app->view->params['portal']->getSecondaryColorAsHex() . ';',
+							'style' => [
+								'color' => $this->params['portal']->getSecondaryColorAsHex(),
+								'background-color' => $this->params['portal']->getPrimaryColorAsHex(),
+							],
 							'type' => 'button',
 							'data' => ['toggle' => 'collapse', 'target' => '#cv-collapse'],
 							'aria' => ['expanded' => 'false', 'controls' => 'cv-collapse'],
@@ -59,8 +62,16 @@ $this->title = $this->params['portal']->name;
 <?php $seekerUploadCvForm = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 	<?= $seekerUploadCvForm->field($seekerUploadCVFormModel, 'CV')->fileInput() ?>
 	<?= Html::submitButton(
-													Yii::t('app', 'Upload CV'), 
-													['class' => 'btn btn-primary form-group', 'value' => 'upload_cv', 'name' => 'seeker_profile_submit']); 
+							Yii::t('app', 'Upload CV'), 
+							[
+								'class' => 'btn btn-primary form-group', 
+								'value' => 'upload_cv', 
+								'name' => 'seeker_profile_submit',
+								'style' => [
+									'color' => $this->params['portal']->getSecondaryColorAsHex(),
+									'background-color' => $this->params['portal']->getPrimaryColorAsHex(),
+								],
+							]); 
 	?>
 <?php ActiveForm::end() ?>
 <?php if(isset($cv->path)): ?>

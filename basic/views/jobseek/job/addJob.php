@@ -9,6 +9,7 @@ use app\models\forms\AddJobForm;
 $this->title = $this->params['portal']->name;
 ?>
 <div class="row">
+    <?php $error = isset($error) ? $error : false; ?>
 	<?php if($error): ?>
         <div class="alert alert-danger" role="alert">
             <p>
@@ -19,7 +20,7 @@ $this->title = $this->params['portal']->name;
 </div>
 <div class="row">
     <div class="col">
-        <h1 class="portal-secondary-color">Add Job</h1>
+        <h1 style="color: <?= $this->params['portal']->getSecondaryColorAsHex() ?>;">Add Job</h1>
         <?php
             $addJobForm = ActiveForm::begin([
                 'id' => 'add-job-form',
@@ -28,7 +29,18 @@ $this->title = $this->params['portal']->name;
             echo $addJobForm->field($addJobFormModel, 'title');
             echo $addJobForm->field($addJobFormModel, 'description')->textArea(['maxLength' => 65535]);
             echo $addJobForm->field($addJobFormModel, 'location');
-            echo Html::submitButton(Yii::t('app', 'Save job'), ['class' => 'btn btn-primary form-group', 'value' => 'add_job', 'name' => 'add_job_submit']);
+            echo Html::submitButton(
+                                    Yii::t('app', 'Save job'), 
+                                    [
+                                        'class' => 'btn form-group', 
+                                        'style' => [
+                                            'color' => $this->params['portal']->getSecondaryColorAsHex(),
+                                            'background-color' => $this->params['portal']->getPrimaryColorAsHex(),
+                                        ],
+                                        'value' => 'add_job', 
+                                        'name' => 'add_job_submit'
+                                    ]
+            );
         ?>
         <?php ActiveForm::end() ?>
     </div>
