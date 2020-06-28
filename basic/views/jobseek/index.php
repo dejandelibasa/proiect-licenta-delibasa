@@ -19,7 +19,10 @@ $this->title = $this->params['portal']->name;
     <?= $jobSearchForm->field($jobSearchFormModel, 'location') ?>
     <?= Html::submitButton(Yii::t('app', 'Search jobs'), [
         'class' => 'btn', 
-        'style' => 'background-color: ' . Yii::$app->view->params['portal']->getPrimaryColorAsHex() . '; color:' . Yii::$app->view->params['portal']->getSecondaryColorAsHex() . ';',
+        'style' => [
+            'color' => $this->params['portal']->getSecondaryColorAsHex(),
+            'background-color' => $this->params['portal']->getPrimaryColorAsHex(),
+        ],
         'value' => 'job_search', 
         'name' => 'index_route',
         ]) ?>
