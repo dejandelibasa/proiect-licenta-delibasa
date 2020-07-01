@@ -12,24 +12,26 @@ use app\models\Company;
 
 $this->title = $this->params['portal']->name;
 ?>
-<h1>Your job application</h1>
+<h1 style="color: <?= $this->params['portal']->getSecondaryColorAsHex() ?>">
+    <?= Yii::t('app', 'Your job application') ?>
+</h1>
 <?= GridView::widget([
-        'dataProvider' => $jobApplications,
-        'columns' => [
-            [
-                'label' => 'Job Title',
-                'format' => 'raw',
-                'value' => function($model) {
-                    return Job::findOne($model->job_id)->title;
-                },
-            ],
-            [
-                'label' => 'Company',
-                'format' => 'raw',
-                'value' => function($model) {
-                    return Company::findOne(Job::findOne($model->job_id)->company_id)->name;
-                }
-            ],
-            'date'
+    'dataProvider' => $jobApplications,
+    'columns' => [
+        [
+            'label' => 'Job Title',
+            'format' => 'raw',
+            'value' => function($model) {
+                return Job::findOne($model->job_id)->title;
+            },
         ],
-    ])?>
+        [
+            'label' => 'Company',
+            'format' => 'raw',
+            'value' => function($model) {
+                return Company::findOne(Job::findOne($model->job_id)->company_id)->name;
+            }
+        ],
+        'date'
+    ],
+])?>

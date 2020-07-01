@@ -28,7 +28,7 @@ $this->title = $this->params['portal']->name;
 				'options' => ['class' => 'form-vertical'],
 			]);
 			echo $seekerRegisterForm->field($seekerRegisterFormModel, 'email');
-			echo $seekerRegisterForm->field($seekerRegisterFormModel, 'password')->passWordinput();
+			echo $seekerRegisterForm->field($seekerRegisterFormModel, 'password')->passwordInput();
 			echo $seekerRegisterForm->field($seekerRegisterFormModel, 'first_name');
 			echo $seekerRegisterForm->field($seekerRegisterFormModel, 'last_name');
 			echo Html::submitButton(
@@ -53,7 +53,7 @@ $this->title = $this->params['portal']->name;
 				'options' => ['class' => 'form-vertical'],
 			]);
 			echo $companyRegisterForm->field($companyRegisterFormModel, 'email');
-			echo $seekerRegisterForm->field($companyRegisterFormModel, 'password')->passWordinput();
+			echo $seekerRegisterForm->field($companyRegisterFormModel, 'password')->passwordInput();
 			echo $seekerRegisterForm->field($companyRegisterFormModel, 'name');
 			echo Html::submitButton(
 				Yii::t('app', 'Register as Company'), 

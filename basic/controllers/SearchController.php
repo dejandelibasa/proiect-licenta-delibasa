@@ -38,6 +38,7 @@ class SearchController extends Controller
         if($locationQueryArray) {
             $jobsQuery->orWhere($locationQueryArray);
         }
+        $jobsQuery->innerJoin('User', 'User.portal_id = ' . $portal_id . ' AND User.entity_id = Job.company_id');
         $jobsQuery->orderBy('created_at');
 
         $jobsDataProvider = new ActiveDataProvider([

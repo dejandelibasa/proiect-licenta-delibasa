@@ -64,7 +64,9 @@ class Portal extends \yii\db\ActiveRecord
     {
         $color = explode('#', $color);
         $color = $color[1];
-        return base_convert($color, 16, 2);
+        $color = base_convert($color, 16, 2);
+        $color = strlen($color) < 24 ? str_pad($color, 24, "0", STR_PAD_LEFT) : $color;
+        return $color;
     }
 
     /**
@@ -72,14 +74,18 @@ class Portal extends \yii\db\ActiveRecord
      */
     public function getPrimaryColorAsHex()
     {
-        return '#' . base_convert($this->primary_color, 2, 16);
+        $primaryColor = base_convert($this->primary_color, 2, 16);
+        $primaryColor = strlen($primaryColor) < 6 ? str_pad($primaryColor, 6, "0", STR_PAD_LEFT) : $primaryColor;
+        return '#' . $primaryColor;
     }
     /**
      * @return string
      */
     public function getSecondaryColorAsHex()
     {
-        return '#' . base_convert($this->secondary_color, 2, 16);
+        $secondaryColor = base_convert($this->secondary_color, 2, 16);
+        $secondaryColor = strlen($secondaryColor) < 6 ? str_pad($secondaryColor, 6, "0", STR_PAD_LEFT) : $secondaryColor;
+        return '#' . $secondaryColor;
     }
     
     /**

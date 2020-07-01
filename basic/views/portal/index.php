@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -30,6 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'secondary_color',
 
             ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => 'Homepage',
+                'template' => '{home}',
+                'buttons' => [
+                    'home' => function ($url, $model, $key) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-home"></span>' ,
+                            Url::to(['portals/index', 'portal_id' => $model->id]),
+                            ['title' => 'Visit Homepage']
+                        );
+                    }
+                ],
+            ],
         ],
     ]); ?>
 

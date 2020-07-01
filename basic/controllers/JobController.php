@@ -28,7 +28,7 @@ class JobController extends Controller
     {
         Yii::$app->view->params['portal'] = Portal::findOne($portal_id);
 
-        if(Yii::$app->user->isGuest || Yii::$app->user->identity->entity_id != User::USER_TYPE_COMPANY) {
+        if(Yii::$app->user->isGuest || Yii::$app->user->identity->type != User::USER_TYPE_COMPANY) {
             return $this->redirect(['portals/index', 'portal_id' => Yii::$app->view->params['portal']->id]);
         }
 

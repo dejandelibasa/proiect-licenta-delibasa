@@ -14,7 +14,9 @@ use app\models\CV;
 
 $this->title = $this->params['portal']->name;
 ?>
-<h1>Your job application</h1>
+<h1 style="color: <?= $this->params['portal']->getSecondaryColorAsHex() ?>">
+    <?= Yii::t('app', 'Applications to your jobs') ?>
+</h1>
 <?= GridView::widget([
         'dataProvider' => $jobApplications,
         'columns' => [
